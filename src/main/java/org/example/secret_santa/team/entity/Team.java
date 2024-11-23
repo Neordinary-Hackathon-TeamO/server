@@ -11,7 +11,6 @@ import org.hibernate.annotations.DynamicInsert;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Builder
@@ -37,16 +36,10 @@ public class Team extends BaseEntity {
     @Column(nullable = true)
     private LocalDateTime endDate = LocalDateTime.now(); // 기본값 설정
 
-    private String inviteCode;
 
     @OneToMany(mappedBy = "team")
     List<MemberTeam> memberTeamList = new ArrayList<>();
 
-    public void generateInviteCode() {
-        this.inviteCode = UUID.randomUUID().toString(); // 초대 코드를 UUID로 생성
-    }
-    public void addMemberTeam(MemberTeam memberTeam) {
-        this.memberTeamList.add(memberTeam);
-    }
 }
+
 

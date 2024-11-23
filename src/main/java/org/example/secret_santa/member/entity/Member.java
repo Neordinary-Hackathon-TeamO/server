@@ -1,23 +1,28 @@
 package org.example.secret_santa.member.entity;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.secret_santa.member.dto.UpdateInfo;
+
 import org.example.secret_santa.team.mapping.MemberTeam;
+
+import org.example.secret_santa.common.BaseEntity;
+import org.example.secret_santa.member.dto.UpdateInfo;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @DynamicInsert // 자동으로 insert문에 null값을 배제하고 쿼리문을 날려줌.
 @Table(name = "member")
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -33,6 +38,7 @@ public class Member {
 
     @ColumnDefault("'ROLE_USER'")
     private String roleSet;
+
     @OneToMany(mappedBy = "member")
     List<MemberTeam> memberTeamList = new ArrayList<>();
 
