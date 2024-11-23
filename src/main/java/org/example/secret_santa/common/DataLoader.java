@@ -3,7 +3,7 @@ package org.example.secret_santa.common;
 import lombok.RequiredArgsConstructor;
 import org.example.secret_santa.common.enums.TeamType;
 import org.example.secret_santa.matching.entity.Matching;
-import org.example.secret_santa.matching.repository.MatchRepository;
+import org.example.secret_santa.matching.repository.MatchingRepository;
 import org.example.secret_santa.member.entity.Member;
 import org.example.secret_santa.member.repository.MemberRepository;
 import org.example.secret_santa.team.entity.Team;
@@ -24,11 +24,11 @@ public class DataLoader {
     public CommandLineRunner loadTestData(MemberRepository memberRepository,
                                           TeamRepository teamRepository,
                                           MemberTeamRepository memberTeamRepository,
-                                          MatchRepository matchRepository)
+                                          MatchingRepository matchRepository)
     {
         return args -> {
             Team team = Team.builder()
-                    .name("팀1")
+                    .name("팀만들엇다 이자식아!!!")
                     .teamType(TeamType.WORKER)
                     .headCount(5)
                     .build();
@@ -52,8 +52,6 @@ public class DataLoader {
                 memberTeamRepository.save(memberTeam);
             }
 
-
-
             for(long i=1; i<10; i++) {
                 Member member1 = memberRepository.findById(i).get();
                 Member member2 = memberRepository.findById(i+1).get();
@@ -66,7 +64,15 @@ public class DataLoader {
                 matchRepository.save(matching);
             }
 
+            Member member1 = memberRepository.findById(10l).get();
+            Member member2 = memberRepository.findById(1l).get();
 
+            Matching matching = Matching.builder()
+                    .giverMember(member1)
+                    .receiverMember(member2)
+                    .team(team)
+                    .build();
+            matchRepository.save(matching);
         };
     }
 }

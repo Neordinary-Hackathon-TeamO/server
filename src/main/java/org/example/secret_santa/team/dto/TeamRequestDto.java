@@ -1,6 +1,6 @@
 package org.example.secret_santa.team.dto;
 
-import lombok.Data;
+import lombok.*;
 import org.example.secret_santa.common.enums.TeamType;
 import org.example.secret_santa.team.entity.Team;
 
@@ -8,10 +8,12 @@ import java.time.LocalDateTime;
 
 @Data
 public class TeamRequestDto {
-
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class AddTeamDto {
         String name;
-
         String type;
         Integer headCount;
         LocalDateTime startDate;

@@ -9,6 +9,7 @@ import org.example.secret_santa.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 
 @RestController
@@ -20,13 +21,11 @@ public class MemberController {
 
     @GetMapping
     ResponseEntity<?> viewMyInfo(Principal principal) {
-        System.out.println("principal = " + principal.getName());
-
         ViewMyInfo viewMyInfo = memberService.viewMyInfo(principal.getName());
         return ResponseEntity.ok(ApiResponse.ok(viewMyInfo));
     }
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody RegisterInfo registerInfo) {
+    public ResponseEntity<?> register(RegisterInfo registerInfo) throws IOException {
         Long memberId = memberService.registerMember(registerInfo);
         return ResponseEntity.ok(ApiResponse.created(memberId));
     }

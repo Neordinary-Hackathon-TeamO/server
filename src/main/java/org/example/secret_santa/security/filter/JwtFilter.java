@@ -46,7 +46,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         //토큰에서 username과 role 획득
-        String name = jwtUtil.getMemId(token);
+        String name = jwtUtil.getUserName(token);
         String role = jwtUtil.getRole(token);
 
         //userEntity를 생성하여 값 set
@@ -59,7 +59,8 @@ public class JwtFilter extends OncePerRequestFilter {
         CustomUserDetails customUserDetails = new CustomUserDetails(member);
 
         //스프링 시큐리티 인증 토큰 생성
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
 
         //세션에 사용자 등록
         SecurityContextHolder.getContext().setAuthentication(authToken);
