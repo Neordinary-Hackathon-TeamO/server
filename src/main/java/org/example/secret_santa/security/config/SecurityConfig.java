@@ -1,5 +1,6 @@
 package org.example.secret_santa.security.config;
 
+import com.google.cloud.storage.HttpMethod;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.secret_santa.security.filter.JwtFilter;
 import org.example.secret_santa.security.filter.LoginFilter;
@@ -8,6 +9,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -74,7 +76,7 @@ public class SecurityConfig {
         return http
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable) // 토큰 사용하기에 csrf 불가능
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults()) // CORS 활성화
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .clearAuthentication(true)
@@ -84,8 +86,8 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_OK);
                         }))) // 세션 쿠키 삭제
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/**")
-                        .permitAll()
+                        .requestMatchers("/**").permitAll()
+//                        .requestMatchers(String.valueOf(HttpMethod.OPTIONS), "/**").permitAll() // OPTIONS 허용
                         .anyRequest().authenticated())
                 .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),

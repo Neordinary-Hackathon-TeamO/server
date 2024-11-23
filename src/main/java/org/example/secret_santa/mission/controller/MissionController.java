@@ -1,17 +1,25 @@
 package org.example.secret_santa.mission.controller;
 
 import jakarta.validation.constraints.Null;
+
+import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.example.secret_santa.common.ApiResponse;
 import org.example.secret_santa.matching.service.MatchingService;
 import org.example.secret_santa.member.dto.ViewMyInfo;
 import org.example.secret_santa.member.service.MemberService;
 import org.example.secret_santa.mission.converter.MissionConverter;
+import org.example.secret_santa.mission.dto.MissionComplete;
 import org.example.secret_santa.mission.dto.MissionRequestDto.ExecuteMission;
 import org.example.secret_santa.mission.dto.MissionResponseDto;
+import org.example.secret_santa.mission.dto.ViewMissionComplete;
 import org.example.secret_santa.mission.entity.Mission;
 import org.example.secret_santa.mission.service.MissionService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +41,13 @@ public class MissionController {
     private final MemberService memberService;
     private final MatchingService matchingService;
 
+    @GetMapping("/mission/list/{teamId}")
+    public ResponseEntity<?> viewCompleteMissions(
+            @PathVariable(name = "teamId") Long teamId) {
+        List<ViewMissionComplete> viewAllMission = missionService.viewAllMission(teamId);
+        return ResponseEntity.ok(ApiResponse.ok(viewAllMission));
+    }
+
     @GetMapping("/mission/{memberId}")
     public ApiResponse<MissionResponseDto.OwnMission> ownMission(
         Principal principal,
@@ -45,26 +60,15 @@ public class MissionController {
         return ApiResponse.ok(MissionConverter.toOwnMission(mission, myNickname, receiverNickname));
     }
 
-
-
-
-
-
-    @PutMapping("/mission/{memberId}")
+    // fomt-data (미션 저장하기)
+    @PutMapping("/mission")
+    @Transactional
     public ApiResponse<?> executeMission(
-        Principal principal,
-        @RequestPart(value = "image") MultipartFile image,
-        @RequestParam("message") String message) {
-        ViewMyInfo viewMyInfo = memberService.viewMyInfo((principal.getName()));
-        Long memberId = viewMyInfo.getId();
-        missionService.putMission(memberId, image, message);
+            Principal principal,
+            MissionComplete missionComplete) throws IOException {
+        missionService.putMission(principal.getName(), missionComplete);
         return ApiResponse.ok();
     }
-
-
-
-
-
 
 
 }

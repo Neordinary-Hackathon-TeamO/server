@@ -6,6 +6,8 @@ import org.example.secret_santa.matching.entity.Matching;
 import org.example.secret_santa.matching.repository.MatchingRepository;
 import org.example.secret_santa.member.entity.Member;
 import org.example.secret_santa.member.repository.MemberRepository;
+import org.example.secret_santa.mission.entity.Mission;
+import org.example.secret_santa.mission.repository.MissionRepository;
 import org.example.secret_santa.team.entity.Team;
 import org.example.secret_santa.team.mapping.MemberTeam;
 import org.example.secret_santa.team.repository.MemberTeamRepository;
@@ -24,7 +26,8 @@ public class DataLoader {
     public CommandLineRunner loadTestData(MemberRepository memberRepository,
                                           TeamRepository teamRepository,
                                           MemberTeamRepository memberTeamRepository,
-                                          MatchingRepository matchRepository)
+                                          MatchingRepository matchRepository,
+                                          MissionRepository missionRepository)
     {
         return args -> {
             Team team = Team.builder()
@@ -62,6 +65,14 @@ public class DataLoader {
                         .team(team)
                         .build();
                 matchRepository.save(matching);
+
+                Mission mission = Mission.builder()
+                        .contents("마니또")
+                        .message("화이팅!" + i)
+                        .isSuccess(false)
+                        .matching(matching)
+                        .build();
+                missionRepository.save(mission);
             }
 
             Member member1 = memberRepository.findById(10l).get();
@@ -72,7 +83,9 @@ public class DataLoader {
                     .receiverMember(member2)
                     .team(team)
                     .build();
+
             matchRepository.save(matching);
+
         };
     }
 }

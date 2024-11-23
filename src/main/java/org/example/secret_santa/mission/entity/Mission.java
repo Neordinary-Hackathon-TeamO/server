@@ -43,7 +43,7 @@ public class Mission extends BaseEntity {
     private boolean isSuccess;
 
     @Column(columnDefinition = "TEXT")
-    private String mission_img;
+    private String missionImg;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -54,8 +54,7 @@ public class Mission extends BaseEntity {
     public void setMissionMessage(String missionMessage) {
         this.message = missionMessage;
     }
-
-
-
+    public void setMissionImg(String missionImg) { this.missionImg = missionImg; }
+    public void setIsSuccess(boolean isSuccess) { this.isSuccess = isSuccess; }
 
 }
