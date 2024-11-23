@@ -15,6 +15,8 @@ public class MissionResponseDto {
     public static class OwnMission {
 
         String contents;
+        String myNickname;
+        String receiverNickname;
 
     }
 }

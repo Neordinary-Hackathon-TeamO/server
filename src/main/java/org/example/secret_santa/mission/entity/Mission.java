@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.secret_santa.common.BaseEntity;
+import org.example.secret_santa.matching.entity.Matching;
 import org.hibernate.annotations.ColumnDefault;
 
 
@@ -44,12 +45,17 @@ public class Mission extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String mission_img;
 
-    /*
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "match_id", nullable = false)
+    @JoinColumn(name = "matching_id", nullable = false)
     private Matching matching;
 
-     */
+
+    public void setMissionMessage(String missionMessage) {
+        this.message = missionMessage;
+    }
+
+
 
 
 }

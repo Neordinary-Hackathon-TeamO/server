@@ -44,5 +44,12 @@ public class MemberService {
         return memberId;
     }
 
+    public String getNickname(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
+
+        return member.getNickName();
+    }
+
 }
 //
