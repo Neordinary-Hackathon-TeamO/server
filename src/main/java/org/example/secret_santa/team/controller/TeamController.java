@@ -45,7 +45,7 @@ public class TeamController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping("")
     public ApiResponse<?> registerTeam(@RequestBody TeamRequestDto.AddTeamDto teamDto) {
         // tODO 예외처리
         return ApiResponse.created(teamService.createTeam(teamDto));
@@ -55,10 +55,8 @@ public class TeamController {
     // 초대 코드로 팀에 입장
     @PostMapping("/join")
     public ApiResponse<?> joinTeam(@RequestParam String inviteCode) {
-
         // 팀에 멤버를 등록하는 로직
         teamService.joinTeam(inviteCode);
-
         return ApiResponse.ok();
     }
 

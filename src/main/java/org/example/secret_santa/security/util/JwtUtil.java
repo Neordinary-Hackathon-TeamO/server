@@ -15,7 +15,7 @@ public class JwtUtil {
 
     private SecretKey secretKey;
 
-    public JwtUtil(@Value(".${spring.jwt.secretKey}")String secret) {
+    public JwtUtil(@Value("${spring.jwt.secretKey}")String secret) {
         secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
