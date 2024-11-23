@@ -18,6 +18,7 @@ import org.example.secret_santa.member.entity.Member;
 import org.example.secret_santa.team.entity.Team;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
@@ -25,6 +26,7 @@ import org.hibernate.annotations.DynamicInsert;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert // 자동으로 insert문에 null값을 배제하고 쿼리문을 날려줌.
+@DynamicUpdate
 @Table(name = "matching")
 public class Matching extends BaseEntity {
 
@@ -34,12 +36,12 @@ public class Matching extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "giver_member_id", nullable = false)
-    private Member giver_member_id;
+    @JoinColumn(name = "giverMember", nullable = false)
+    private Member giverMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_member_id", nullable = false)
-    private Member receiver_member_id;
+    @JoinColumn(name = "receiverMember", nullable = false)
+    private Member receiverMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", nullable = false)
@@ -48,4 +50,7 @@ public class Matching extends BaseEntity {
     @ColumnDefault("false")
     private boolean isSuccess = false;
 
+    public void setIsSuccess(boolean isSuccess) {
+        this.isSuccess = isSuccess;
+    }
 }

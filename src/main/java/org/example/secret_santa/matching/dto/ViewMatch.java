@@ -13,8 +13,8 @@ public class ViewMatch {
 
     public static ViewMatch of(Matching matching) {
         return ViewMatch.builder()
-                .from(matching.getGiver_member_id().getNickName())
-                .to(matching.getReceiver_member_id().getNickName())
+                .from(matching.getGiverMember().getNickName())
+                .to(matching.getReceiverMember().getNickName())
                 .isSuccess(matching.isSuccess())
                 .build();
     }

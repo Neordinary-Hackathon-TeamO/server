@@ -59,8 +59,8 @@ public class DataLoader {
                 Member member2 = memberRepository.findById(i+1).get();
 
                 Matching matching = Matching.builder()
-                        .giver_member_id(member1)
-                        .receiver_member_id(member2)
+                        .giverMember(member1)
+                        .receiverMember(member2)
                         .team(team)
                         .build();
                 matchRepository.save(matching);
