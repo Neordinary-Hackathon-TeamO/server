@@ -18,10 +18,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-
+    public UserDetails loadUserByUsername(String memId) throws UsernameNotFoundException {
         //DB에서 조회
-        Optional<Member> member = memberRepository.findByName(name);
+        Optional<Member> member = memberRepository.findByMemId(memId);
         if (member.isPresent()) {
             return new CustomUserDetails(member.get());
         }
