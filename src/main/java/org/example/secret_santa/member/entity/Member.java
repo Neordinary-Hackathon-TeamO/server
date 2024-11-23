@@ -4,11 +4,18 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import org.example.secret_santa.team.mapping.MemberTeam;
+
 import org.example.secret_santa.common.BaseEntity;
 import org.example.secret_santa.member.dto.UpdateInfo;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +38,10 @@ public class Member extends BaseEntity {
 
     @ColumnDefault("'ROLE_USER'")
     private String roleSet;
+
+    @OneToMany(mappedBy = "member")
+    List<MemberTeam> memberTeamList = new ArrayList<>();
+
     public void setMemId(String memId) {
         this.memId = memId;
     }

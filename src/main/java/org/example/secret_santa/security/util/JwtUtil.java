@@ -33,9 +33,9 @@ public class JwtUtil {
     }
 
     public String createJwt(String memId, String role, Long expiredTime) {
-        Claims claims = (Claims) Jwts.claims()
-                .setSubject(memId)
-                .put("role", role);
+        Claims claims = Jwts.claims();
+        claims.setSubject(memId);
+        claims.put("role", role);
 
         return Jwts.builder()
                 .setClaims(claims) // jwt 공간안에 claim에 담은 정보 넣기
