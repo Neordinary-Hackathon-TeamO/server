@@ -14,13 +14,14 @@ public class TeamRequestDto {
     @AllArgsConstructor
     public static class AddTeamDto {
         String name;
-
         String type;
         Integer headCount;
         LocalDateTime startDate;
         LocalDateTime endDate;
 
+
         public static Team convertDtoToTeam(AddTeamDto dto ) {
+
             return Team.builder()
                     .teamType(convertTeamType(dto.type))
                     .headCount(dto.headCount)
@@ -29,14 +30,35 @@ public class TeamRequestDto {
                     .name(dto.name)
                     .build();
         }
+
+
         public static TeamType convertTeamType(String str) {
-            if(str == "WORKER") return TeamType.WORKER;
-            else if (str == "STUDENT") return TeamType.STUDENT;
-            else return TeamType.WORKER;
+            if (str == null || str.isBlank()) {
+                throw new IllegalArgumentException("Input string cannot be null or blank");
+            }
+
+            switch (str) {
+                case "RELATIONSHIP":
+                    return TeamType.RELATIONSHIP;
+                case "HEALING":
+                    return TeamType.HEALING;
+                case "GAME":
+                    return TeamType.GAME;
+                case "JOY":
+                    return TeamType.JOY;
+                case "SHARING":
+                    return TeamType.SHARING;
+                case "MEMORY":
+                    return TeamType.MEMORY;
+                case "HUMOR":
+                    return TeamType.HUMOR;
+                default:
+                    throw new IllegalArgumentException("Invalid TeamType: " + str);
+            }
+
+
         }
 
-
     }
-
 
 }
