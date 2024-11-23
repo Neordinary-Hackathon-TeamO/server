@@ -30,10 +30,12 @@ public class Team extends BaseEntity {
     TeamType teamType;
     @Column(nullable = false)
     Integer headCount;
-    @Column(nullable = false)
-    LocalDateTime startDate;
-    @Column(nullable = false)
-    LocalDateTime endDate;
+    @Column(nullable = true)
+    private LocalDateTime startDate = LocalDateTime.now(); // 기본값 설정
+
+    @Column(nullable = true)
+    private LocalDateTime endDate = LocalDateTime.now(); // 기본값 설정
+
 
     @OneToMany(mappedBy = "team")
     List<MemberTeam> memberTeamList = new ArrayList<>();
