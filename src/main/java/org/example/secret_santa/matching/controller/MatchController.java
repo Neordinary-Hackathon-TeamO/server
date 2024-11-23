@@ -26,4 +26,9 @@ public class MatchController {
         return ResponseEntity.ok(ApiResponse.ok(viewAllMatches));
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<?> guessMyManitto(@PathVariable(name = "id") Long teamId)
+    {
+        matchService.guessManitto(memberId)
+    }
 }

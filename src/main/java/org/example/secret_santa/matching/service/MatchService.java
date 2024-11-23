@@ -25,4 +25,8 @@ public class MatchService {
         Page<Matching> matchings = matchRepository.findAllByTeamId(teamId, pageable);
         return matchings.map(matching -> ViewMatch.of(matching));
     }
+
+    public Long guessManitto(Long memberId) {
+        matchRepository.find
+    }
 }
