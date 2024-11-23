@@ -4,9 +4,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.secret_santa.team.mapping.MemberTeam;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,6 +30,8 @@ public class Member {
     private String profileImage;
     @ColumnDefault("'ROLE_USER'")
     private String roleSet;
+    @OneToMany(mappedBy = "member")
+    List<MemberTeam> memberTeamList = new ArrayList<>();
     public void setName(String name) {
         this.name = name;
     }
