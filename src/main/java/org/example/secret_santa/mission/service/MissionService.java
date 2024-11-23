@@ -1,6 +1,7 @@
 package org.example.secret_santa.mission.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.secret_santa.common.converter.UserAuthorizationConverter;
 import org.example.secret_santa.matching.entity.Matching;
 import org.example.secret_santa.matching.repository.MatchingRepository;
 import org.example.secret_santa.member.entity.Member;
@@ -27,13 +28,15 @@ public class MissionService {
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
 
+    private final UserAuthorizationConverter userAuthorizationConverter;
 
-    public Mission getOwnMission(Long giverMemberId, Long groupId) {
+
+    public Mission getOwnMission( Long groupId) {
 
 
-        Member member = memberRepository.findById(giverMemberId)
-            .orElseThrow(MemberNotFoundException::new);
 
+        Member member = memberRepository.findById(userAuthorizationConverter.getAuthenticatedMember().getId())
+            .orElseThrow(() -> new RuntimeException("Member not found"));
 
 
 
@@ -49,9 +52,12 @@ public class MissionService {
 
 
 
-    public void putMission(Long memberId, MultipartFile image, String message) {
+    public void putMission(MultipartFile image, String message) {
 
-        Mission mission = missionRepository.findByMemberId(memberId);
+        Member member = memberRepository.findById(userAuthorizationConverter.getAuthenticatedMember().getId())
+            .orElseThrow(() -> new RuntimeException("Member not found"));
+
+        Mission mission = missionRepository.findByMemberId(member.getId());
 
         mission.setMissionMessage(message);
         //mission.사진업로드

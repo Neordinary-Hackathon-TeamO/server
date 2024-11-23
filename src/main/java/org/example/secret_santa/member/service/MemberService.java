@@ -3,6 +3,7 @@ package org.example.secret_santa.member.service;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
+import org.example.secret_santa.common.converter.UserAuthorizationConverter;
 import org.example.secret_santa.member.dto.RegisterInfo;
 import org.example.secret_santa.member.dto.UpdateInfo;
 import org.example.secret_santa.member.dto.ViewMyInfo;
@@ -28,6 +29,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final Storage storage;
+    private final UserAuthorizationConverter userAuthorizationConverter;
 
     public Long registerMember(RegisterInfo registerInfo) throws IOException {
         Optional<Member> byMemId = memberRepository.findByMemId(registerInfo.getMemId());
@@ -69,9 +71,9 @@ public class MemberService {
         return memberId;
     }
 
-    public String getNickname(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
+    public String getNickname() {
+        Member member = memberRepository.findById(userAuthorizationConverter.getAuthenticatedMember().getId())
+            .orElseThrow(() -> new RuntimeException("Member not found"));
 
         return member.getNickName();
     }

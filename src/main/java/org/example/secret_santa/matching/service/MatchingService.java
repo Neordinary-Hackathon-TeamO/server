@@ -2,6 +2,7 @@ package org.example.secret_santa.matching.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.example.secret_santa.common.converter.UserAuthorizationConverter;
 import org.example.secret_santa.matching.entity.Matching;
 import org.example.secret_santa.matching.repository.MatchingRepository;
 import org.example.secret_santa.member.entity.Member;
@@ -21,11 +22,12 @@ public class MatchingService {
     private final MatchingRepository matchingRepository;
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
+    private final UserAuthorizationConverter userAuthorizationConverter;
 
 
-    public String getReceiverNickname(Long memberId, Long groupId) {
-        Member member = memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
+    public String getReceiverNickname(Long groupId) {
+        Member member = memberRepository.findById(userAuthorizationConverter.getAuthenticatedMember().getId())
+            .orElseThrow(() -> new RuntimeException("Member not found"));
 
 
 

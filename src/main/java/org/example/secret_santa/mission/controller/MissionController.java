@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Null;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.example.secret_santa.common.ApiResponse;
+import org.example.secret_santa.common.converter.UserAuthorizationConverter;
 import org.example.secret_santa.matching.service.MatchingService;
 import org.example.secret_santa.member.dto.ViewMyInfo;
 import org.example.secret_santa.member.service.MemberService;
@@ -27,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/api")
+@RequestMapping("/mission")
 public class MissionController {
 
 
@@ -36,15 +37,12 @@ public class MissionController {
     private final MatchingService matchingService;
 
 
-    @GetMapping("/mission/{memberId}")
+    @GetMapping("/{groupId}/{memberId}")
     public ApiResponse<MissionResponseDto.OwnMission> ownMission(
-        Principal principal,
         @PathVariable("groupId") Long groupId) {
-        ViewMyInfo viewMyInfo = memberService.viewMyInfo((principal.getName()));
-        Long memberId = viewMyInfo.getId();
-        Mission mission = missionService.getOwnMission(memberId, groupId);
-        String myNickname = memberService.getNickname(memberId);
-        String receiverNickname = matchingService.getReceiverNickname(memberId, groupId);
+        Mission mission = missionService.getOwnMission(groupId);
+        String myNickname = memberService.getNickname();
+        String receiverNickname = matchingService.getReceiverNickname(groupId);
         return ApiResponse.ok(MissionConverter.toOwnMission(mission, myNickname, receiverNickname));
     }
 
@@ -53,14 +51,11 @@ public class MissionController {
 
 
 
-    @PutMapping("/mission/{memberId}")
+    @PutMapping("/{memberId}")
     public ApiResponse<?> executeMission(
-        Principal principal,
         @RequestPart(value = "image") MultipartFile image,
         @RequestParam("message") String message) {
-        ViewMyInfo viewMyInfo = memberService.viewMyInfo((principal.getName()));
-        Long memberId = viewMyInfo.getId();
-        missionService.putMission(memberId, image, message);
+        missionService.putMission( image, message);
         return ApiResponse.ok();
     }
 
