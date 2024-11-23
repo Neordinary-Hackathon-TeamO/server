@@ -22,20 +22,26 @@ public class TeamController {
     final TeamService teamService;
 
     @GetMapping("/rooms")
-    public ApiResponse<List<TeamResponseDto.GetTeamList>> getTeamList(@RequestParam(value = "memberId") Long memberId) {
-        List<TeamResponseDto.GetTeamList> teamList = teamService.findAllByMemberId(memberId);
+    public ApiResponse<List<TeamResponseDto.GetTeamList>> getTeamList() {
+        List<TeamResponseDto.GetTeamList> teamList = teamService.findAllByMemberId();
         return ApiResponse.ok(teamList); // API 응답 반환
     }
     /**
      * 채팅방으로 이동
      * case 1 : 아직 모집되지 않음 -> 대기방으로 이동
-     * case 2 : 모
+     * case 2 : 모집완료 -> 마니또를 보여줌
+     * case 3 : 다시 들어감 -> 미션방으로 이동
      *
      * */
-    @GetMapping("/room")
+//    @GetMapping("/room")
+//    public ApiResponse<?> goTeam(@RequestParam Long teamId) {
+//        teamService.findAllMembersByTeamId(teamId);
+//    }
 
     @PostMapping("/")
     public ApiResponse<?> registerTeam(@RequestBody TeamRequestDto.AddTeamDto teamDto) {
+        // 방장도 참가
+
 
         // tODO 예외처리
         return ApiResponse.created(teamService.createTeam(teamDto));
@@ -44,10 +50,10 @@ public class TeamController {
 
     // 초대 코드로 팀에 입장
     @PostMapping("/join")
-    public ApiResponse<?> joinTeam(@RequestParam String inviteCode, @RequestParam Long memberId) {
+    public ApiResponse<?> joinTeam(@RequestParam String inviteCode) {
 
         // 팀에 멤버를 등록하는 로직
-        teamService.joinTeam(inviteCode, memberId);
+        teamService.joinTeam(inviteCode);
 
         return ApiResponse.ok();
     }

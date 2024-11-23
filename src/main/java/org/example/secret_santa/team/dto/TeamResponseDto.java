@@ -31,4 +31,25 @@ public class TeamResponseDto {
                     .build();
         }
     }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetM {
+        private Long teamId;
+
+        private String name;
+        private LocalDateTime startDate;
+        private LocalDateTime endDate;
+
+        // Team 객체를 DTO로 변환
+        public static GetTeamList fromTeam(Team team) {
+            return GetTeamList.builder()
+                    .teamId(team.getTeamId())
+                    .name(team.getName())
+                    .startDate(team.getStartDate())
+                    .endDate(team.getEndDate())
+                    .build();
+        }
+    }
 }
