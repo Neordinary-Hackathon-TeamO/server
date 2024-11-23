@@ -2,6 +2,8 @@ package org.example.secret_santa.team.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.secret_santa.common.ApiResponse;
+
+import org.example.secret_santa.team.dto.GoRoomResponseDTO;
 import org.example.secret_santa.team.dto.TeamRequestDto;
 import org.example.secret_santa.team.dto.TeamResponseDto;
 import org.example.secret_santa.team.entity.Team;
@@ -32,11 +34,16 @@ public class TeamController {
      * case 2 : 모집완료 -> 마니또를 보여줌
      * case 3 : 다시 들어감 -> 미션방으로 이동
      *
-     * */
-//    @GetMapping("/room")
-//    public ApiResponse<?> goTeam(@RequestParam Long teamId) {
-//        teamService.findAllMembersByTeamId(teamId);
-//    }
+     <<<<<<< HEAD
+     * @param teamId 팀 ID
+     * @return GoRoomResponseDTO
+     */
+    @GetMapping("/goRoom")
+    public ApiResponse<GoRoomResponseDTO> goRoom(@RequestParam Long teamId) {
+        GoRoomResponseDTO responseDTO = teamService.goRoom(teamId);
+        return ApiResponse.ok(responseDTO);
+    }
+
 
     @PostMapping("/")
     public ApiResponse<?> registerTeam(@RequestBody TeamRequestDto.AddTeamDto teamDto) {
