@@ -9,15 +9,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.secret_santa.common.BaseEntity;
+import org.example.secret_santa.member.entity.Member;
 import org.example.secret_santa.team.entity.Team;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert // 자동으로 insert문에 null값을 배제하고 쿼리문을 날려줌.
 @Table(name = "matching")
@@ -28,15 +33,19 @@ public class Matching extends BaseEntity {
     @Column(name = "matching_id")
     private Long id;
 
-    @Column(nullable = false)
-    private Long giver_member_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "giver_member_id", nullable = false)
+    private Member giver_member_id;
 
-    @Column(nullable = false)
-    private Long receiver_member_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_member_id", nullable = false)
+    private Member receiver_member_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
+    @ColumnDefault("false")
+    private boolean isSuccess = false;
 
 }
