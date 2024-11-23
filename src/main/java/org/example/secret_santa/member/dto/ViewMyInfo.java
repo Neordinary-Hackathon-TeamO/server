@@ -12,12 +12,12 @@ public class ViewMyInfo {
     private String nickName;
     private String profileImage;
 
-    public static ViewMyInfo of(Member member) {
+    public static ViewMyInfo of(Member member, String bucketName) {
         return ViewMyInfo.builder()
                 .id(member.getId())
                 .memId(member.getMemId())
                 .nickName(member.getNickName())
-                .profileImage(member.getProfileImage())
+                .profileImage("https://storage.googleapis.com/" + bucketName + "/" + member.getProfileImage())
                 .build();
     }
 }
