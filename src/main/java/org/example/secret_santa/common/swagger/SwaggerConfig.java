@@ -14,23 +14,19 @@ import org.springframework.context.annotation.Profile;
 import java.util.Arrays;
 import java.util.List;
 
-@OpenAPIDefinition(info = @Info(title = "tg-wing 홈페이지", description = "다들 아자아자 화이팅^^", version = "v1"))
-
+@OpenAPIDefinition(info = @Info(title = "secret-santa", description = "백엔드 api명세서", version = "v1"))
 @Configuration
-@Profile({"dev", "default"})
 public class SwaggerConfig {
 
+//    @Bean
+//    public Server devServer() {
+//        Server devServer = new Server();
+//        devServer.setDescription("dev");
+//        devServer.setUrl("http://ec2-43-200-221-178.ap-northeast-2.compute.amazonaws.com/api");
+//        return devServer;
+//    }
+//
     @Bean
-    @Profile("dev")
-    public Server devServer() {
-        Server devServer = new Server();
-        devServer.setDescription("dev");
-        devServer.setUrl("http://ec2-43-200-221-178.ap-northeast-2.compute.amazonaws.com/api");
-        return devServer;
-    }
-
-    @Bean
-    @Profile("default")
     public Server defaultServer() {
         return null;
     }

@@ -16,11 +16,10 @@ public class JwtUtil {
     private SecretKey secretKey;
 
     public JwtUtil(@Value(".${spring.jwt.secretKey}")String secret) {
-
         secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String getName(String token) {
+    public String getMemId(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -33,10 +32,9 @@ public class JwtUtil {
                 .getBody().getExpiration().before(new Date());
     }
 
-
-    public String createJwt(String name, String role, Long expiredTime) {
+    public String createJwt(String memId, String role, Long expiredTime) {
         Claims claims = (Claims) Jwts.claims()
-                .setSubject(name)
+                .setSubject(memId)
                 .put("role", role);
 
         return Jwts.builder()

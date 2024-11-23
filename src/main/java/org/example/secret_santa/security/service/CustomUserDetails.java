@@ -15,7 +15,6 @@ public class CustomUserDetails implements UserDetails {
         this.member = member;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -33,14 +32,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-
         return member.getPassword();
     }
 
     @Override
     public String getUsername() {
-
-        return member.getName();
+        return member.getMemId();
     }
 
     @Override
