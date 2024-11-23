@@ -1,6 +1,7 @@
 package org.example.secret_santa.team.repository;
 
 import org.example.secret_santa.member.entity.Member;
+import org.example.secret_santa.team.entity.Team;
 import org.example.secret_santa.team.mapping.MemberTeam;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,5 +23,6 @@ public interface MemberTeamRepository extends JpaRepository<MemberTeam, Long> {
     @Modifying
     @Query("UPDATE MemberTeam mt SET mt.isOpened = true WHERE mt.team.id = :teamId AND mt.member.id = :memberId")
     void updateIsOpenedStatus(@Param("teamId") Long teamId, @Param("memberId") Long memberId);
+    List<MemberTeam> findByTeamId(Long teamId);  // teamId에 해당하는 멤버 팀 리스트 조회
 
 }
