@@ -1,12 +1,14 @@
 package org.example.secret_santa.member.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.example.secret_santa.common.ApiResponse;
 import org.example.secret_santa.member.dto.RegisterInfo;
 import org.example.secret_santa.member.dto.UpdateInfo;
 import org.example.secret_santa.member.dto.ViewMyInfo;
 import org.example.secret_santa.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -21,7 +23,6 @@ public class MemberController {
     @GetMapping
     ResponseEntity<?> viewMyInfo(Principal principal) {
         System.out.println("principal = " + principal.getName());
-
         ViewMyInfo viewMyInfo = memberService.viewMyInfo(principal.getName());
         return ResponseEntity.ok(ApiResponse.ok(viewMyInfo));
     }

@@ -10,6 +10,7 @@ import org.example.secret_santa.member.exception.MemberNotFoundException;
 import org.example.secret_santa.member.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -37,6 +38,8 @@ public class MemberService {
         memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         memberRepository.deleteById(memberId);
     }
+
+    @Transactional
     public Long updateMember(Long memberId, UpdateInfo updateInfo) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
