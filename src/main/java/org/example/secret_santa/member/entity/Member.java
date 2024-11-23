@@ -39,7 +39,7 @@ public class Member extends BaseEntity {
     @ColumnDefault("'ROLE_USER'")
     private String roleSet;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     List<MemberTeam> memberTeamList = new ArrayList<>();
 
     public void setMemId(String memId) {
@@ -67,5 +67,12 @@ public class Member extends BaseEntity {
         this.memId = updateInfo.getMemId();
         this.nickName = updateInfo.getNickName();
         this.profileImage = updateInfo.getProfileImage();
+    }
+    // Add memberTeam to the list of memberTeams
+    public void addMemberTeam(MemberTeam memberTeam) {
+        this.memberTeamList.add(memberTeam);
+        if (memberTeam.getMember() != this) {
+            memberTeam.setMember(this);
+        }
     }
 }
