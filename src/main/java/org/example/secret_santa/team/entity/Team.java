@@ -20,11 +20,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 //@DynamicInsert // 자동으로 insert문에 null값을 배제하고 쿼리문을 날려줌.
-@Table(name = "teams")
+@Table(name = "team")
 public class Team extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long teamId;
+    private Long id;
 
     String name;
     @Enumerated(EnumType.STRING)
@@ -36,10 +36,12 @@ public class Team extends BaseEntity {
     Integer currentHeadCount = 0;
     @Column(nullable = true)
     private LocalDateTime startDate = LocalDateTime.now(); // 기본값 설정
+
     @Column(nullable = true)
     private LocalDateTime endDate = LocalDateTime.now(); // 기본값 설정
 
     private String inviteCode;
+
 
     @OneToMany(mappedBy = "team",  cascade = CascadeType.ALL)
     List<MemberTeam> memberTeamList = new ArrayList<>();
@@ -62,12 +64,5 @@ public class Team extends BaseEntity {
         currentHeadCount += 1;
     }
 }
-
-
-
-
-
-
-
 
 
