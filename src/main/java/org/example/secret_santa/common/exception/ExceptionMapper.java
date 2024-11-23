@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class ExceptionMapper { // 예외 객체 -> 예외 상태로 바꿔주는 mapper
 
+
     private static final Map<Class<? extends Exception>, ExceptionSituation> mapper = new LinkedHashMap<>();
 
     static {
