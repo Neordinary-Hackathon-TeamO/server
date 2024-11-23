@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+
+echo "src/main/resources/primal-asset-298817-b8b9c396e5f6.json" >> .gitignore
