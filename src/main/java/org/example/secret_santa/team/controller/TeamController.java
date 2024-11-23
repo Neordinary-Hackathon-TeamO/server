@@ -40,9 +40,6 @@ public class TeamController {
 
     @PostMapping("/")
     public ApiResponse<?> registerTeam(@RequestBody TeamRequestDto.AddTeamDto teamDto) {
-        // 방장도 참가
-
-
         // tODO 예외처리
         return ApiResponse.created(teamService.createTeam(teamDto));
 

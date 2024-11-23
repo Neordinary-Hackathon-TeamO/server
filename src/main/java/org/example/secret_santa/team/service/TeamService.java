@@ -3,6 +3,7 @@ package org.example.secret_santa.team.service;
 import lombok.RequiredArgsConstructor;
 import org.example.secret_santa.common.converter.UserAuthorizationConverter;
 import org.example.secret_santa.member.entity.Member;
+import org.example.secret_santa.member.exception.MemberNotFoundException;
 import org.example.secret_santa.member.repository.MemberRepository;
 import org.example.secret_santa.team.dto.TeamRequestDto;
 import org.example.secret_santa.team.dto.TeamResponseDto;
@@ -24,12 +25,35 @@ public class TeamService {
     final MemberTeamRepository memberTeamRepository;
     private final UserAuthorizationConverter userAuthorizationConverter;
 
-    public Team createTeam(TeamRequestDto.AddTeamDto teamDto) {
-        Team team = TeamRequestDto.AddTeamDto.convertDtoToTeam(teamDto);
-        team.generateInviteCode(); // 초대 코드 생성
-        team.setCurrentHeadCount(0);
-        return teamRepository.save(team);
-    }
+//    public Team createTeam(TeamRequestDto.AddTeamDto teamDto) {
+//        Team team = TeamRequestDto.AddTeamDto.convertDtoToTeam(teamDto);
+//        team.generateInviteCode(); // 초대 코드 생성
+//        team.setCurrentHeadCount(0);
+//
+//        // 방장(Member) 정보 가져오기
+//        Member creator = memberRepository.findById(userAuthorizationConverter.getAuthenticatedMember().getId())
+//                .orElseThrow(() -> new RuntimeException("Member not found"));
+//
+//        // 방장을 Team에 추가
+//        Team savedTeam = teamRepository.save(team);
+//        MemberTeam memberTeam = new MemberTeam(savedTeam, creator);
+//        team.addMemberTeam(memberTeam); // Team에 MemberTeam 추가
+//        team.plusCurrentHeadCount(); // 인원수 증가
+//
+//        creator.addMemberTeam(memberTeam); // Member에 MemberTeam 추가
+//
+//        // 저장
+//        memberTeamRepository.save(memberTeam);
+//
+//        return teamRepository.save(team);
+//    }
+@Transactional
+public Team createTeam(TeamRequestDto.AddTeamDto teamDto) {
+    Team team = TeamRequestDto.AddTeamDto.convertDtoToTeam(teamDto);
+    team.generateInviteCode(); // 초대 코드 생성
+
+    return teamRepository.save(team);
+}
 
 @Transactional
 public void joinTeam(String inviteCode) {

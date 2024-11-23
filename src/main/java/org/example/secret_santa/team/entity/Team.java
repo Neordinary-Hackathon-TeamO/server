@@ -32,6 +32,7 @@ public class Team extends BaseEntity {
     @Column(nullable = false)
     Integer headCount;
     @Column(nullable = false)
+    @ColumnDefault("0")
     Integer currentHeadCount = 0;
     @Column(nullable = true)
     private LocalDateTime startDate = LocalDateTime.now(); // 기본값 설정
@@ -43,6 +44,10 @@ public class Team extends BaseEntity {
 
     @OneToMany(mappedBy = "team",  cascade = CascadeType.ALL)
     List<MemberTeam> memberTeamList = new ArrayList<>();
+    @PrePersist
+    public void prePersist() {
+        if (this.currentHeadCount == null) this.currentHeadCount = 0;
+    }
 
     public void generateInviteCode() {
         this.inviteCode = UUID.randomUUID().toString(); // 초대 코드를 UUID로 생성
