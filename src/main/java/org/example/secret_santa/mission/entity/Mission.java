@@ -8,12 +8,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.secret_santa.match.entity.Match;
+import org.example.secret_santa.common.BaseEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 
@@ -21,8 +22,9 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-public class Mission {
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "Mission")
+public class Mission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +34,9 @@ public class Mission {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String contents;
 
+    @Column(columnDefinition = "TEXT")
+    private String message;
+
     @Column(nullable = false)
     @ColumnDefault("false")
     private boolean isSuccess;
@@ -39,9 +44,12 @@ public class Mission {
     @Column(columnDefinition = "TEXT")
     private String mission_img;
 
+    /*
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "match_id", nullable = false)
-    private Match match;
+    private Matching matching;
+
+     */
 
 
 }

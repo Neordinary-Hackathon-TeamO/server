@@ -1,16 +1,16 @@
 package org.example.secret_santa.member.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.secret_santa.member.dto.UpdateInfo;
 import org.example.secret_santa.team.mapping.MemberTeam;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -23,17 +23,21 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
     @Column(nullable = false, unique = true)
-    private String name;
+    private String memId;
+    @Column(nullable = false, unique = true)
+    private String nickName;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false, unique = true)
+
     private String profileImage;
+
     @ColumnDefault("'ROLE_USER'")
     private String roleSet;
     @OneToMany(mappedBy = "member")
     List<MemberTeam> memberTeamList = new ArrayList<>();
-    public void setName(String name) {
-        this.name = name;
+
+    public void setMemId(String memId) {
+        this.memId = memId;
     }
     public void setRole(String roleSet) {
         this.roleSet = roleSet;
@@ -45,10 +49,17 @@ public class Member {
         setPassword(passwordEncoder.encode(getPassword()));
     }
     @Builder
-    public Member(Long id, String name, String password, String profileImage) {
+    public Member(Long id, String memId, String nickName, String password, String profileImage) {
         this.id = id;
+        this.memId = memId;
         this.password = password;
-        this.name = name;
+        this.nickName = nickName;
         this.profileImage = profileImage;
+    }
+
+    public void updateInfo(UpdateInfo updateInfo) {
+        this.memId = updateInfo.getMemId();
+        this.nickName = updateInfo.getNickName();
+        this.profileImage = updateInfo.getProfileImage();
     }
 }
